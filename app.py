@@ -43,9 +43,6 @@ def save_diary():
 
     return jsonify({'msg': '저장완료!'})
 
-@app.route('/detail')
-def detail():
-    return render_template("detail.html")
 
 @app.route('/subpage')
 def subpage():
