@@ -7,6 +7,8 @@
     <meta property="og:title" content="Sparta Vocabulary Notebook"/>
     <meta property="og:description" content="mini project for Web Plus"/>
     <meta property="og:image" content="{{ url_for('static', filename='logo_red.png') }}"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <!-- Bootstrap CSS -->
@@ -14,11 +16,12 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
     <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
@@ -160,15 +163,33 @@
                 $("#btn-post-box").text("작성닫기");
             }
         }
+
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('잘가라 멍!')
+            window.location.href = "/login"
+        }
     </script>
 </head>
 
 <body>
+<nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <img src="{{ url_for('static', filename='logo.png') }}">
+            <strong class="is-sparta"
+                    style="font-family: 'Stylish', sans-serif;font-size: larger;">Facedog</strong>
+        </a>
+    </div>
+</nav>
+
 <div class="wrap">
     <div class="container">
         <div class="lead gap-2 d-md-flex justify-content-md-end">
             <button onclick="openClose()" id="btn-post-box" type="button" class="btn btn-outline-warning">작성하기</button>
-            <button type="button" class="btn btn-outline-dark">로그아웃</button>
+            <button onclick="sign_out()" type="button" class="btn btn-outline-dark" aria-label="logout">
+                로그아웃
+            </button>
         </div>
         <h1 class="mytitle">Facedog</h1>
         <div class="search-box d-flex justify-content-center">
