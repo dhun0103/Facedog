@@ -10,7 +10,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -21,6 +20,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+    <!--폰트 어썸-->
+    <script src="https://kit.fontawesome.com/8c50268670.js" crossorigin="anonymous"></script>
+
 
     <title>facedog</title>
 
@@ -73,9 +76,9 @@
                                                 <div class="card-body">
                                                     <h5 class="card-title">${title}</h5>
                                                     <p class="card-text">${content}</p>
-                                                    <p class="card-text"><small class="text-muted"></small></p>
+                                                    <button class="fa-solid fa-heart" id="rec_update"></button>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary" onclick="delete_word()"> 삭제 </button>
+                                                <button type="button" class="btn btn-secondary" onclick="delete_diary(this)"> 삭제 </button>
                                             </div>`
                        $('#cards-box').append(temp_html)
                     }
@@ -107,18 +110,12 @@
             });
         }
 
-        function delete_word() {
-            $.ajax({
-                type: "POST",
-                url: `/api/delete_word`,
-                data: {
-                    word_give: "{{ word }}"
-                },
-                success: function (response) {
-                    alert(response["msg"])
-                }
-            });
+        function delete_diary(obj){
+            var div = $(obj).parent();
+            div.remove();
         }
+
+
 
     </script>
 </head>
