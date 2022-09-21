@@ -132,15 +132,6 @@ def subpage():
 
 
 
-@app.route('/api/diary', methods=['post'])
-def delete_diary():
-    diaries = request.form["diary"]
-    db.diaries.delete_one({"diary": diaries})
-    return jsonify({'result': 'success', 'msg' : '글 삭제'})
-
-
-
-
 
 
 
