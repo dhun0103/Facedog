@@ -43,17 +43,16 @@ def save_diary():
 
     return jsonify({'msg': '저장완료!'})
 
-
 @app.route('/subpage')
 def subpage():
     return render_template("subpage.html")
 
 
 #삭제하기 버튼
-@app.route('/api/delete_word', methods=['post'])
-def delete_word():
-    word_receive = request.form["word_give"]
-    db.words.delete_one({"word": word_receive})
+@app.route('/api/diary', methods=['post'])
+def delete_diary():
+    diaries = request.form["diary"]
+    db.diaries.delete_one({"diary": diaries})
     return jsonify({'result': 'success', 'msg' : '글 삭제'})
 
 
