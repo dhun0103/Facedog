@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,7 +79,7 @@
                                                     <p class="card-text">${content}.</p>
                                                     <button class="fa-solid fa-heart" id="rec_update"></button>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary" onclick="delete_word()"> 삭제 </button>
+                                                <button type="button" class="btn btn-secondary" onclick="delete_diary()"> 삭제 </button>
                                             </div>`
                        $('#cards-box').append(temp_html)
                     }
@@ -110,12 +111,12 @@
             });
         }
 
-        function delete_word() {
-            $.ajax({
+        function delete_diary(){
+             $.ajax({
                 type: "POST",
-                url: `/api/delete_word`,
+                url: `/api/diary`,
                 data: {
-                    word_give: "{{ word }}"
+                    diary:"{{ diaries }}"
                 },
                 success: function (response) {
                     alert(response["msg"])
