@@ -23,8 +23,9 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        return render_template('index.html', user_info=user_info)
 
-        return render_template('index.html')
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -35,6 +36,8 @@ def home():
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
+
+
 
 
 @app.route('/sign_in', methods=['POST'])
@@ -83,7 +86,68 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 # --------------------------------로그인&회원가입 끝----------------------------------------------
 
+#--------------------------------메인페이지 가기----------------------------------------------
+@app.route('/diary', methods=['GET'])
+def show_diary():
+    diaries = list(db.diary.find({}, {'_id': False}))
+    return jsonify({'all_diary': diaries})
+
+@app.route('/diary', methods=['POST'])
+def save_diary():
+    title_receive = request.form['title_give']
+    content_receive = request.form['content_give']
+
+    file = request.files["file_give"]
+
+    extension = file.filename.split('.')[-1]
+
+    today = datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+    filename = f'file-{mytime}'
+
+    save_to = f'static/{filename}.{extension}'
+    file.save(save_to)
+
+    doc = {
+        'title':title_receive,
+        'content':content_receive,
+        'file': f'{filename}.{extension}',
+        'time': today.strftime('%Y.%m.%d')
+    }
+
+    db.diary.insert_one(doc)
+
+    return jsonify({'msg': '저장 완료!'})
+
+
+
+# ---------------------------------------메인페이지 끝--------------------------------------------
+
+
+
+@app.route('/subpage')
+def subpage():
+    return render_template("subpage.html")
+
+
+
+@app.route('/api/diary', methods=['post'])
+def delete_diary():
+    diaries = request.form["diary"]
+    db.diaries.delete_one({"diary": diaries})
+    return jsonify({'result': 'success', 'msg' : '글 삭제'})
+
+
+
+
+
+
+
+
+
 # ---------------------------------------------------------------------------------------------
+
 @app.route('/user/<username>')
 def user(username):
     # 각 사용자의 프로필과 글을 모아볼 수 있는 공간
