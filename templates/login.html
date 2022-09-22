@@ -26,9 +26,12 @@
             font-family: 'Jua', sans-serif;
         }
 
-        body {
-            background-color: RGBA(232, 52, 78, 0.2);
-            min-height: 100vh;
+        .background-image {
+            background-image: url('/static/login2.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+
         }
 
         .section {
@@ -67,6 +70,7 @@
         .help {
             color: gray;
         }
+
 
     </style>
 
@@ -221,13 +225,14 @@
 
 </head>
 <body>
+
 <section class="hero is-white">
     <div class="hero-body has-text-centered" style="padding-bottom:1rem;margin:auto;">
         <h1 class="title is-sparta">Facedog</h1>
         <h3 class="subtitle is-sparta">우아한 견주들</h3>
     </div>
 </section>
-
+<div class="background-image">
 <section class="section">
     <div class="container">
         <div class="box" style="max-width: 480px;margin:auto">
@@ -301,10 +306,12 @@
 
 
                 </div>
+
             </article>
         </div>
 
     </div>
+</div>
 </section>
 </body>
 </html>
