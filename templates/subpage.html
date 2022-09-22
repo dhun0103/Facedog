@@ -70,6 +70,7 @@
             color: black;
         }
     </style>
+
     <script>
         $(document).ready(function () {
             bsCustomFileInput.init()
@@ -95,7 +96,7 @@
                                                     <p class="card-text">${content}</p>
                                                     <p class="card-text"><small class="text-muted"></small></p>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary" onclick="delete_diary()"> 삭제 </button>
+                                                <button type="button" class="btn btn-secondary" onclick="delete_diary(this)"> 삭제 </button>
                                             </div>`
                         $('#cards-box').append(temp_html)
                     }
@@ -128,24 +129,14 @@
             });
         }
 
-        function delete_diary() {
-            $.ajax({
-                type: "POST",
-                url: `/api/delete_diary`,
-                data: {
-                    title_give: "{{ title }}"
-                },
-                success: function (response) {
-                    alert(response["msg"])
-                }
-            });
+        function delete_diary(obj) {
+            var div = $(obj).parent();
+            div.remove();
         }
-
     </script>
 </head>
 
 <body>
-
 <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
@@ -185,7 +176,6 @@
     </div>
 
     <div id="cards-box">
-
     </div>
 </div>
 

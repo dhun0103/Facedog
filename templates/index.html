@@ -79,14 +79,17 @@
         .custom-file {
             margin: 0px 0px 20px 0px;
         }
+
         .mytitle {
             color: indianred;
         }
+
         .card-columns {
             margin: auto;
         }
 
     </style>
+
     <script>
         $(document).ready(function () {
             bsCustomFileInput.init()
@@ -166,6 +169,11 @@
             window.location.href = "/login"
         }
 
+
+        function delete_diary(obj) {
+            var div = $(obj).parent();
+            div.remove();
+        }
     </script>
 </head>
 
@@ -183,7 +191,8 @@
 <div class="wrap">
     <div class="container">
         <div class="lead gap-2 d-md-flex justify-content-md-end">
-             <button id="btn-post-box" type="button" class="btn btn-light"><a href="/subpage" style="color: black">작성하기</a></button>
+            <button id="btn-post-box" type="button" class="btn btn-light"><a href="/subpage"
+                                                                             style="color: black">작성하기</a></button>
             <button onclick="sign_out()" type="button" class="btn btn-dark" aria-label="logout">로그아웃</button>
         </div>
         <h1 class="mytitle" onclick="window.location.reload()">Facedog</h1>

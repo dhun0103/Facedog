@@ -32,11 +32,11 @@ def home():
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
+
 @app.route('/login')
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
-
 
 
 
@@ -62,6 +62,7 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
+
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
     username_receive = request.form['username_give']
@@ -79,14 +80,15 @@ def sign_up():
     return jsonify({'result': 'success'})
 
 
+
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
-# --------------------------------로그인&회원가입 끝----------------------------------------------
+# ---------------------------------로그인&회원가입 끝---------------------------------
 
-#--------------------------------메인페이지 시작----------------------------------------------
+#----------------------------------메인페이지 시작-----------------------------------
 
 @app.route('/diary', methods=['GET'])
 def show_diary():
@@ -99,11 +101,9 @@ def show_diary():
 def subpage():
     return render_template("subpage.html")
 
+# -----------------------------------메인페이지 끝----------------------------------
 
-# ---------------------------------------메인페이지 끝--------------------------------------------
-
-
-
+# -----------------------------------서브페이지 시작---------------------------------
 @app.route('/api/save_diary', methods=['POST'])
 def save_diary():
     title_receive = request.form['title_give']
@@ -133,71 +133,15 @@ def save_diary():
     return jsonify({'msg': '저장 완료!'})
 
 
+
 @app.route('/api/delete_diary', methods=['post'])
 def delete_diary():
     title_receive = request.form["title_give"]
     db.diary.delete_one({"diary": title_receive})
     return jsonify({'result': 'success', 'msg' : '글 삭제'})
 
-# ---------------------------------------------------------------------------------------------
+# -----------------------------------서브페이지 끝----------------------------------
 
-@app.route('/user/<username>')
-def user(username):
-    # 각 사용자의 프로필과 글을 모아볼 수 있는 공간
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        status = (username == payload["id"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
-
-        user_info = db.users.find_one({"username": username}, {"_id": False})
-        return render_template('user.html', user_info=user_info, status=status)
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
-
-
-
-@app.route('/update_profile', methods=['POST'])
-def save_img():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 프로필 업데이트
-        return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
-
-
-@app.route('/posting', methods=['POST'])
-def posting():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 포스팅하기
-        return jsonify({"result": "success", 'msg': '포스팅 성공'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
-
-
-@app.route("/get_posts", methods=['GET'])
-def get_posts():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 포스팅 목록 받아오기
-        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다."})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
-
-
-@app.route('/update_like', methods=['POST'])
-def update_like():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 좋아요 수 변경
-        return jsonify({"result": "success", 'msg': 'updated'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
 
 
 if __name__ == '__main__':
