@@ -89,7 +89,7 @@
                         let content = diaries[i]['content']
                         let file = diaries[i]['file']
 
-                        let temp_html = `<div class="card" >
+                        let temp_html = `<div class="card">
                                                 <img class="card-img-top" src="../static/${file}" alt="Card image cap">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${title}</h5>
@@ -129,9 +129,20 @@
             });
         }
 
-        function delete_diary(obj) {
+        function delete_diary(obj){
             var div = $(obj).parent();
             div.remove();
+
+             $.ajax({
+                type: "POST",
+                url: `/api/delete_diary`,
+                data: {
+                    title_give: "{{ title }}"
+                },
+                success: function (response) {
+                    alert(response["msg"])
+                }
+            });
         }
     </script>
 </head>
@@ -140,9 +151,7 @@
 <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
-            <img src="{{ url_for('static', filename='logo.png') }}">
-            <strong class="is-sparta"
-                    style="font-family: 'Stylish', sans-serif;font-size: larger;">Facedog</strong>
+            <img src="/static/facedoglogo.png" width="100" heinght="100">
         </a>
     </div>
 </nav>
