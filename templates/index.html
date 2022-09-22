@@ -86,6 +86,7 @@
             margin: auto;
         }
 
+
     </style>
     <script>
         $(document).ready(function () {
@@ -106,15 +107,17 @@
                         let file = diaries[i]['file']
                         let time = diaries[i]['time']
 
-                        let temp_html = `<div class="card" style="float:left;">
-                                                <img class="card-img-top" src="../static/${file}" alt="Card image cap">
+                        let temp_html = `<div class="card-columns" id="cards-box" style="width: 50rem;">
+                                                <div class="card">
+                                                <img src="../static/${file}" class="card-img-top">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${title}</h5>
                                                     <p class="card-text">${content}</p>
-                                                    <p class="card-text"><small class="text-muted"></small></p>
+                                                    <p class="save-date">${time}</p>
+                                                    <button type="button" class="btn btn-secondary" onclick="delete_diary(this)">삭제</button>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary" onclick="delete_diary(this)"> 삭제 </button>
-                                            </div>`
+                                            </div>
+                                       </div>`
                         $('#cards-box').append(temp_html)
                     }
                 }
@@ -159,15 +162,15 @@
             }
         }
 
-        function openClose() {
-            if ($("#post-box").css("display") == "block") {
-                $("#post-box").hide();
-                $("#btn-post-box").text("작성하기");
-            } else {
-                $("#post-box").show();
-                $("#btn-post-box").text("작성닫기");
-            }
-        }
+        // function openClose() {
+        //     if ($("#post-box").css("display") == "block") {
+        //         $("#post-box").hide();
+        //         $("#btn-post-box").text("작성하기");
+        //     } else {
+        //         $("#post-box").show();
+        //         $("#btn-post-box").text("작성닫기");
+        //     }
+        // }
 
         function sign_out() {
             $.removeCookie('mytoken', {path: '/'});
@@ -179,6 +182,7 @@
             var div = $(obj).parent();
             div.remove();
         }
+
     </script>
 </head>
 
@@ -196,7 +200,7 @@
 <div class="wrap">
     <div class="container">
         <div class="lead gap-2 d-md-flex justify-content-md-end">
-            <button id="btn-post-box" type="button" class="btn btn-light" onclick="openClose()" style="color: black">작성하기</button>
+            <button id="btn-post-box" type="button" class="btn btn-light"><a href="/subpage" style="color: black">작성하기</a></button>
             <button onclick="sign_out()" type="button" class="btn btn-dark" aria-label="logout">로그아웃</button>
         </div>
         <h1 class="mytitle" onclick="window.location.reload()">Facedog</h1>
@@ -204,7 +208,6 @@
             <input id="input-word" class="form-control" style="margin-right: 0.5rem">
             <button class="btn btn-light" onclick="post_filter()"><i class="fa fa-search"></i></button>
         </div>
-
         <div id="post-box" class="form-post" style="display:none">
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="file">
@@ -220,9 +223,13 @@
         </div>
     </div>
 </div>
-
 <div class="card-columns" id="cards-box" style="width: 50rem;">
 </div>
 
+<tr>
+    <td>
+<!--        <button type="button" class="btn btn-secondary" onclick="delete_word()">삭제</button>-->
+    </td>
+</tr>
 </body>
 </html>
