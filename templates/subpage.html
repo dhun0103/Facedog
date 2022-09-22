@@ -85,7 +85,7 @@
                                                     <p class="card-text">${content}</p>
                                                     <p class="card-text"><small class="text-muted"></small></p>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary" onclick="delete_diary(this)"> 삭제 </button>
+                                                <button type="button" class="btn btn-secondary" onclick="delete_diary()"> 삭제 </button>
                                             </div>`
                        $('#cards-box').append(temp_html)
                     }
@@ -105,7 +105,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/diary",
+                url: "/api/save_diary",
                 data: form_data,
                 cache: false,
                 contentType: false,
@@ -117,10 +117,18 @@
             });
         }
 
-        function delete_diary(obj){
-            var div = $(obj).parent();
-            div.remove();
-        }
+       function delete_diary() {
+           $.ajax({
+               type: "POST",
+               url: `/api/delete_diary`,
+               data: {
+                   title_give: "{{ title }}"
+               },
+               success: function (response) {
+                   alert(response["msg"])
+               }
+           });
+       }
 
     </script>
 </head>

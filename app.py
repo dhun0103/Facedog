@@ -12,8 +12,8 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
-client = MongoClient('localhost', 27017)
-# client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
+# client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://test:test@localhost', 27017)
 db = client.hanghae99_1
 
 
@@ -106,7 +106,7 @@ def subpage():
 
 
 
-@app.route('/diary', methods=['POST'])
+@app.route('/api/save_diary', methods=['POST'])
 def save_diary():
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
@@ -135,10 +135,10 @@ def save_diary():
     return jsonify({'msg': '저장 완료!'})
 
 
-@app.route('/api/diary', methods=['post'])
+@app.route('/api/delete_diary', methods=['post'])
 def delete_diary():
-    diaries = request.form["diary"]
-    db.diaries.delete_one({"diary": diaries})
+    title_receive = request.form["title_give"]
+    db.diaries.delete_one({"diary": title_receive})
     return jsonify({'result': 'success', 'msg' : '글 삭제'})
 
 # ---------------------------------------------------------------------------------------------
