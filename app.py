@@ -12,8 +12,8 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 SECRET_KEY = 'SPARTA'
 
-# client = MongoClient('localhost', 27017)
-client = MongoClient('mongodb://test:test@localhost', 27017)
+client = MongoClient('localhost', 27017)
+# client = MongoClient('mongodb://test:test@localhost', 27017)
 db = client.hanghae99_1
 
 
@@ -86,7 +86,8 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 # --------------------------------로그인&회원가입 끝----------------------------------------------
 
-#--------------------------------메인페이지 가기----------------------------------------------
+#--------------------------------메인페이지 시작----------------------------------------------
+
 @app.route('/diary', methods=['GET'])
 def show_diary():
     diaries = list(db.diary.find({}, {'_id': False}))
@@ -94,15 +95,12 @@ def show_diary():
 
 
 
-
-
-# ---------------------------------------메인페이지 끝--------------------------------------------
-
-
-
 @app.route('/subpage')
 def subpage():
     return render_template("subpage.html")
+
+
+# ---------------------------------------메인페이지 끝--------------------------------------------
 
 
 
@@ -130,7 +128,7 @@ def save_diary():
         'time': today.strftime('%Y.%m.%d')
     }
 
-    db.diaries.insert_one(doc)
+    db.diary.insert_one(doc)
 
     return jsonify({'msg': '저장 완료!'})
 
@@ -138,7 +136,7 @@ def save_diary():
 @app.route('/api/delete_diary', methods=['post'])
 def delete_diary():
     title_receive = request.form["title_give"]
-    db.diaries.delete_one({"diary": title_receive})
+    db.diary.delete_one({"diary": title_receive})
     return jsonify({'result': 'success', 'msg' : '글 삭제'})
 
 # ---------------------------------------------------------------------------------------------
