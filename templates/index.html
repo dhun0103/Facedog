@@ -101,14 +101,16 @@
                         let file = diaries[i]['file']
                         let time = diaries[i]['time']
 
-                        let temp_html = `<div class="card">
-                                            <img src="../static/${file}" class="card-img-top">
-                                            <div class="card-body">
-                                                <h5 class="card-title">${title}</h5>
-                                                <p class="card-text">${content}</p>
-                                                <p class="save-date">${time}</p>
+                        let temp_html = `<div class="card-columns" id="cards-box" style="width: 50rem;">
+                                                <div class="card">
+                                                <img src="../static/${file}" class="card-img-top">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${title}</h5>
+                                                    <p class="card-text">${content}</p>
+                                                    <p class="save-date">${time}</p>
+                                                </div>
                                             </div>
-                                        </div>`
+                                       </div>`
                         $('#cards-box').append(temp_html)
                     }
                 }
@@ -141,13 +143,12 @@
         }
 
         function post_filter() {
-            let search_keyword = document.getElementById("search").value.toLowerCase(); //소문자로 검색어 받아오기
-            let postList = document.getElementsByClassName("card-box");
-
+            let search_keyword = document.getElementById('input-word').value.toLowerCase(); //소문자로 검색어 받아오기
+            let postList = document.getElementsByClassName('card');
             for (let i = 0; i < postList.length; i++) {
-                let postName = postList[i].getElementsByClassName('title');
+                let postName = postList[i].getElementsByClassName('card-title');
                 if (postName[0].innerText.toLowerCase().indexOf(search_keyword) != -1) {
-                    postList[i].style.display = "flex"
+                    postList[i].style.display = 'flex-direction'
                 } else {
                     postList[i].style.display = "none"
                 }

@@ -92,6 +92,20 @@ def show_diary():
     diaries = list(db.diary.find({}, {'_id': False}))
     return jsonify({'all_diary': diaries})
 
+
+
+
+
+# ---------------------------------------메인페이지 끝--------------------------------------------
+
+
+
+@app.route('/subpage')
+def subpage():
+    return render_template("subpage.html")
+
+
+
 @app.route('/diary', methods=['POST'])
 def save_diary():
     title_receive = request.form['title_give']
@@ -116,26 +130,16 @@ def save_diary():
         'time': today.strftime('%Y.%m.%d')
     }
 
-    db.diary.insert_one(doc)
+    db.diaries.insert_one(doc)
 
     return jsonify({'msg': '저장 완료!'})
 
 
-
-# ---------------------------------------메인페이지 끝--------------------------------------------
-
-
-
-@app.route('/subpage')
-def subpage():
-    return render_template("subpage.html")
-
-
-
-
-
-
-
+@app.route('/api/diary', methods=['post'])
+def delete_diary():
+    diaries = request.form["diary"]
+    db.diaries.delete_one({"diary": diaries})
+    return jsonify({'result': 'success', 'msg' : '글 삭제'})
 
 # ---------------------------------------------------------------------------------------------
 
